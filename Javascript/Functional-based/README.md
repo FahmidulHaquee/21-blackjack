@@ -1,55 +1,43 @@
-# Blackjack Command Line Game
+## Javascript Implementation
 
-This repository contains the code for a Blackjack game playable in the terminal. The game has been coded in both Javascript and Python, and in both a functional-based manner and object-orientated manner.
+- [Deck function](#)
+- [](#)
+- [](#)
+- [](#)
+- [](#)
 
-## Table of Contents
+## Deck Function
 
-- [Setup](#setup)
-- [Technologies](#technologies)
-- [Implementation](#implementation)
-- [Javascript](#javascript)
-  - [Functional Programming](#functional-programming)
-  - [Object-oriented Programming](#object-oriented-programming)
-- [Python](#python)
-  - [Functional Programming](#functional-programming-1)
-  - [Object-oriented Programming](#object-oriented-programming-1)
-- [License](#license)
-- [Contact](#contact)
+The deck function returns an array of elements which represent all the different cards in a card.
 
-## Setup
+```
+export function deck() {
+  const cards = []
 
-To get started, clone this repository to your local machine.
+  const suits = ['D', 'C', 'S', 'H']
+  const numbers = [
+    'A',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'J',
+    'Q',
+    'K'
+  ]
+  // Use for loop with direct reference to element entries with for
+  for (let i in suits) {
+    for (let j in numbers) {
+      let currentCard = numbers[j] + suits[i]
+      cards.push(currentCard)
+    }
+  }
+  return cards
+}
 
-To run the Javascript versions, please ensure you have [Deno](https://deno.land/#installation) installed on your machine to execute Javascript files. Deno is a modern runtime for Javscript.
-
-To run the Python versions, please ensure you have [Python](https://www.python.org/downloads/) installed on your local machine to execute Python scripts.
-
-## Technologies
-
-- Deno
-- Python
-
-## Implementation
-
-This game has been implemented in different languages and paradigms to demonstrated understanding of:
-
-- Python
-- Javascript
-- Functional programming
-- Object-oriented programming
-
-## Javascript
-
-### Functional Programming
-
-### Object-oriented programming
-
-## Python
-
-### Functional Programming
-
-### Object-oriented programming
-
-## License
-
-## Contact
+```

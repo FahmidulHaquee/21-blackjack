@@ -118,9 +118,9 @@ This function enables the player to make choice of whether to hit or stick. 3 in
 First, the user is prompted, and then an action is performed based on their input. If the user decides to hit, the score for their hand is re-calculated. Then, an object is returned based on their hand score:
 
 return {  
-&nbsp;&nbsp; continueTurn: false,
-&nbsp;&nbsp; didPlayerBust: false,
-&nbsp;&nbsp; didPlayer21: false
+&nbsp;&nbsp; continueTurn: false,  
+&nbsp;&nbsp; didPlayerBust: false,  
+&nbsp;&nbsp; didPlayer21: false  
 }
 
 As the reader may guess, the different object properties represent conditions which may occur for the player.

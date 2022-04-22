@@ -113,18 +113,21 @@ export function pointsFor(hand) {
 
 ## playerTurn(deck, playerHand, logger = defaultLogger)
 
-This function enables the player to make choice of whether to hit or stick. First, the user is prompted, and then an action is performed based on their input.
+This function enables the player to make choice of whether to hit or stick. 3 inputs are passed to this function, including the deck, player's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The player's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves.
 
-If the user decides to hit, the score for their hand is re-calculated. Then, an object is returned based on their hand score:
+First, the user is prompted, and then an action is performed based on their input. If the user decides to hit, the score for their hand is re-calculated. Then, an object is returned based on their hand score:
 
-return {
+return {  
 &nbsp;&nbsp; continueTurn: false,
 &nbsp;&nbsp; didPlayerBust: false,
-&nbsp;&nbsp; didPlayer21: true,
+&nbsp;&nbsp; didPlayer21: false
 }
 
-- If the player has less than 21 points, the 'continueTurn' property returns true, which indicates to the play function that the player's turn will continue. This will trigger the playerTurn function again, giving the user another prompt to hit or stick.
-- If the player has exactly 21 points, the 'continueTurn' property returns false. This will end the player's turn and begin the dealer's turn.
+As the reader may guess, the different object properties represent conditions which may occur for the player.
+
+- If the player has less than 21 points, the 'continueTurn' property returns true, which indicates to the play function that the player's turn will continue. This will trigger the playerTurn function again, giving the user another prompt to hit or stick. The other properties will return false.
+- If the player has exactly 21 points, the 'continueTurn' property returns false. Instead, the 'didPlayer21' property returns true. This will end the player's turn and begin the dealer's turn.
+- If the player exceeds 21 points, the 'didPlayerBust' property returns true. This indicates to the game that the player automatically loses.
 
 ```
 export function playerTurn(deck, hand, logger = defaultLogger) {

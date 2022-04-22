@@ -16,7 +16,7 @@ This repository contains the code for a Blackjack game playable in the terminal.
 
 To get started, clone this repository to your local machine.
 
-To run the Javascript versions, please ensure you have [Deno](https://deno.land/#installation) installed on your machine to execute Javascript files. Deno is a modern runtime for Javscript. Open up your terminal or a code editor, like Visual Studio Code, and navigate to the folder, Javascript. Then enter the following command to start the game:
+To run the Javascript versions, please ensure you have [Deno](https://deno.land/#installation) installed on your machine to execute Javascript files. Deno is a modern runtime for Javascript. Open up your terminal or a code editor, like Visual Studio Code, and navigate to the folder, Javascript. Then enter the following command to start the game:
 
 ```
 deno run blackjack.js
@@ -44,7 +44,7 @@ When the scripts are ran, the game begins by shuffling a deck. The player's turn
 
 - If the player achieves a score of 21 on their first turn, their turn automatically ends and the dealer's turn begins.
 - Otherwise, the player has a choice to hit or stick.
-  - If they hit and bust (score > 21), the player loses.
+  - If they hit and bust (score > 21), the player loses and the dealer wins.
   - If they reach 21, the player's turn automatically ends
   - If their score is under 21 again, the prompt to hit/stick is repeated.
 
@@ -54,14 +54,23 @@ If the player sticks or reaches 21, the player's turn ends and the dealer's turn
 - If the dealer achieves a score of less than 16, the dealer will hit and draw another card.
   - If the dealer's score is still less than 16, the dealer will hit, and vice versa.
   - If the dealer's score is exactly 21, their turn will automatically end.
-  - If the dealer's score ex
+  - If the dealer's score exceeds 21, the dealer loses and the player wins.
 
 ### Functional vs Object-oriented Programming
 
+## Next Steps
+
+- Implement multiple rounds and keep track of score
+- Register a user
+- Leaderboard system
+- Add money to gamble
+- Make the game appear more visual
+- Create a react web application based on this
+
 ## License
 
-The license for this project can be found [here](https://github.com/FahmidulHaquee/Blackjack-Game/blob/main/LICENSE)
+The license for this project can be found [here](https://github.com/FahmidulHaquee/Blackjack-Game/blob/main/LICENSE).
 
 ## Contact
 
-Please feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/fahmidul-haque-b7a96b123/)
+Please feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/fahmidul-haque-b7a96b123/) with any questions.

@@ -2,11 +2,23 @@
 
 Functional, Javascript implementation of command line Blackjack.
 
-- [deck()](#)
-- [pointsFor()](#)
-- [playerTurn()](#)
-- [play()](#)
-- [](#)
+- [Run Script](#run-script)
+- [deck()](#deck)
+- [pointsFor()](<#pointsfor()>)
+- [playerTurn()](#playerturndeck-hand-logger--defaultlogger)
+- [dealerTurn()]()
+- [play()](#playseed--datenow-logger--defaultlogger)
+- [Support files](#)
+
+## Run Script
+
+As mentioned before, to run this game, open up your terminal (Windows Powershell/Terminal) and navigate to the project folder. Then enter:
+
+```
+deno run blackjack.js
+```
+
+Please ensure you have Deno installed on your local machine.
 
 ## deck()
 
@@ -99,11 +111,17 @@ export function pointsFor(hand) {
 
 ```
 
-## playerTurn(deck, hand, logger = defaultLogger)
+## playerTurn(deck, playerHand, logger = defaultLogger)
 
 This function enables the player to make choice of whether to hit or stick. First, the user is prompted, and then an action is performed based on their input.
 
-If the user decides to hit, the score for their hand is re-calculated. Then, a number of different objects are returned based on their hand score:
+If the user decides to hit, the score for their hand is re-calculated. Then, an object is returned based on their hand score:
+
+return {
+&nbsp;&nbsp; continueTurn: false,
+&nbsp;&nbsp; didPlayerBust: false,
+&nbsp;&nbsp; didPlayer21: true,
+}
 
 - If the player has less than 21 points, the 'continueTurn' property returns true, which indicates to the play function that the player's turn will continue. This will trigger the playerTurn function again, giving the user another prompt to hit or stick.
 - If the player has exactly 21 points, the 'continueTurn' property returns false. This will end the player's turn and begin the dealer's turn.
@@ -168,7 +186,55 @@ export function playerTurn(deck, hand, logger = defaultLogger) {
 }
 ```
 
-## play()
+## dealerTurn(deck, dealerHand, logger = defaultLogger)
+
+This function is responsible for initiating the dealer's turn as part of the game. 3 inputs are passed to this function, including the deck, dealer's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The dealer's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves.
+
+```
+export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
+  // Evaluate the dealer's points
+  let dealerPoints = pointsFor(dealerHand)
+  logger.info(
+    `Dealer\'s hand is ${dealerHand.join(', ')}\n(${dealerPoints} points)\n`
+  )
+
+  // Calculate current points before next move
+  if (dealerPoints < 17) {
+    // Dealer has < 17 points
+    var action = 'hit'
+  } else if (dealerPoints >= 17 && dealerPoints < 21) {
+    // Dealer has over 17 and less than 21
+    var action = 'stick'
+  } else if (dealerPoints > 21) {
+    logger.info('Dealer has busted\n')
+    didDealerBust = true
+  }
+  switch (action) {
+    case 'hit': {
+      // Dealer draws
+      logger.info('Dealer is hitting\n')
+      dealerHand.push(deck.shift())
+      dealerPoints = pointsFor(dealerHand)
+
+      return true // Dealer gets another move
+    }
+    case 'stick': {
+      // Dealer sticks
+      logger.info('Dealer is sticking')
+      logger.info(
+        `Dealer ends this round with a hand of ${dealerHand.join(
+          ', '
+        )}\n With ${dealerPoints} points`
+      )
+
+      return false // End the Dealer's turn
+    }
+  }
+}
+
+```
+
+## play({seed = Date.now(), logger = defaultLogger = {})
 
 This function creates and shuffles the deck. This function can be considered the main, over-arching function which contains helper functions described previously that control smaller parts of the game logic. The play function dictates when the player's and dealer's turn starts and ends, and ultimately decides whether the player wins, draws or ties.
 
@@ -232,50 +298,4 @@ export function play({ seed = Date.now(), logger = defaultLogger } = {}) {
     return LOSE_MESSAGE
   }
 }
-```
-
-## dealerTurn()
-
-```
-export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
-  // Evaluate the dealer's points
-  let dealerPoints = pointsFor(dealerHand)
-  logger.info(
-    `Dealer\'s hand is ${dealerHand.join(', ')}\n(${dealerPoints} points)\n`
-  )
-
-  // Calculate current points before next move
-  if (dealerPoints < 17) {
-    // Dealer has < 17 points
-    var action = 'hit'
-  } else if (dealerPoints >= 17 && dealerPoints < 21) {
-    // Dealer has over 17 and less than 21
-    var action = 'stick'
-  } else if (dealerPoints > 21) {
-    logger.info('Dealer has busted\n')
-    didDealerBust = true
-  }
-  switch (action) {
-    case 'hit': {
-      // Dealer draws
-      logger.info('Dealer is hitting\n')
-      dealerHand.push(deck.shift())
-      dealerPoints = pointsFor(dealerHand)
-
-      return true // Dealer gets another move
-    }
-    case 'stick': {
-      // Dealer sticks
-      logger.info('Dealer is sticking')
-      logger.info(
-        `Dealer ends this round with a hand of ${dealerHand.join(
-          ', '
-        )}\n With ${dealerPoints} points`
-      )
-
-      return false // End the Dealer's turn
-    }
-  }
-}
-
 ```

@@ -111,7 +111,7 @@ export function pointsFor(hand) {
 
 ## playerTurn(deck, playerHand, logger = defaultLogger)
 
-This function enables the player to make choice of whether to hit or stick. 3 inputs are passed to this function, including the deck, player's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The player's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves. The logger..
+This function enables the player to make choice of whether to hit or stick. 3 inputs are passed to this function, including the deck, player's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The player's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves. The logger function is used to create an output on the command line which is suitable for feeding into tests, as opposed to the usual console.log() which cannot feed it's output.
 
 First, the user is prompted, and then an action is performed based on their input. If the user decides to hit, the score for their hand is re-calculated. Then, an object is returned based on their hand score:
 
@@ -126,6 +126,8 @@ As the reader may guess, the different object properties represent conditions wh
 - If the player has less than 21 points, the 'continueTurn' property returns true, which indicates to the play function that the player's turn will continue. This will trigger the playerTurn function again, giving the user another prompt to hit or stick. The other properties will return false.
 - If the player has exactly 21 points, the 'continueTurn' property returns false. Instead, the 'didPlayer21' property returns true. This will end the player's turn and begin the dealer's turn.
 - If the player exceeds 21 points, the 'didPlayerBust' property returns true. This indicates to the game that the player automatically loses.
+
+If the user decides to stick, their turn will end and the dealer's turn will start. If the user did not enter a valid command, they will be prompted to enter their command again.
 
 ```js
 export function playerTurn(deck, hand, logger = defaultLogger) {
@@ -189,7 +191,7 @@ export function playerTurn(deck, hand, logger = defaultLogger) {
 
 ## dealerTurn(deck, dealerHand, logger = defaultLogger)
 
-This function is responsible for initiating the dealer's turn as part of the game. 3 inputs are passed to this function, including the deck, dealer's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The dealer's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves.
+This function is responsible for initiating the dealer's turn as part of the game. 3 inputs are passed to this function, including the deck, dealer's hand, and a logger. The deck is used to draw cards from, and excludes cards drawn previously. The dealer's hand is drawn as part of the main play() function, and is passed to determine the dealer's points and next moves. The logger function is used to create an output on the command line which is suitable for feeding into tests, as opposed to the usual console.log() which cannot feed it's output.
 
 ```js
 export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
@@ -300,6 +302,30 @@ export function play({ seed = Date.now(), logger = defaultLogger } = {}) {
 }
 ```
 
+## Tests
+
+Deno is installed with a built-in tests runner. You can run the tests file by entering the following command on the command line:
+
+```
+deno test tests.js
+```
+
+A number of unit tests have been written to tests small parts of the game, and if the game logic is being followed correctly. The following test checks to see if an unshuffled deck is created with all the cards needed.
+
+```js
+Deno.test("deck(): a fresh deck in 'new deck order'", () => {
+  // prettier-ignore
+  assertEquals(deck(), [
+    "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
+    "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
+    "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC",
+    "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH"
+  ])
+});
+```
+
+Tests include a description for part of the application logic they are testing for.
+
 ## Support files
 
 There are a number of files which contain functions that add important functionality to the game, such as the logger, shuffle and the testing suite.
@@ -327,7 +353,9 @@ export async function getDefaultLogger() {
 
 ## Shuffle
 
-The shuffle.js file contains a shuffle function which returns an array with the original elements mixed into random positions. It takes 2 arguments: an array (the deck) and a seed. The seed helps to reproduce the game to help write automated tests. If the same seed is entered twice, the deck returned will be the same.
+The shuffle.js file contains a shuffle function which returns an array with the original elements mixed into random positions. It takes 2 arguments: an array (the deck) and a seed. The seed input helps to reproduce the game to help write automated tests. If the same seed is entered twice, the deck returned will be the same. Outside of tests, the time will be passed into the function to keep the shuffling random.
+
+This function is pseudorandom in the sense that the array generated will be random, but only with varying inputs. Since we have technically control the inputs to this function, the same result can be produced if desired.
 
 ```js
 export default function shuffle(array, seed = 1) {
@@ -351,6 +379,8 @@ export default function shuffle(array, seed = 1) {
 ```
 
 ## Testing
+
+There are a number of functions here which help with the unit tests in the tests.js file. These are written to here for
 
 ```js
 export function playerChooses(choices) {

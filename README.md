@@ -6,6 +6,7 @@ This repository contains the code for a Blackjack game playable in the terminal.
 
 - [Setup](#setup)
 - [Technologies](#technologies)
+- [Deno](#deno)
 - [Implementation](#implementation)
 - [Game Logic](#game-logic)
 - [Functional vs Object-oriented Programming](#functional-vs-object-oriented-programming)
@@ -28,6 +29,10 @@ To run the Python versions, please ensure you have [Python](https://www.python.o
 
 - [Deno](https://deno.land/#installation)
 - Python
+
+## Deno
+
+[Deno](https://deno.land/#installation) is a modern alternative to [Node.js](https://nodejs.org/en/), which is also a JavaScript Runtime. However, Deno provides a number of benefits when compared to Node. In fact, both open-source technologies were developed by the same creator. Deno was created to address issues in Node, such as a lack of attention to security, and lack of support for TypeScript.
 
 ## Implementation
 

@@ -380,7 +380,7 @@ export default function shuffle(array, seed = 1) {
 
 ## Testing
 
-There are a number of functions here which help with the unit tests in the tests.js file. These are written to here for
+There are a number of functions here which help with the unit tests in the tests.js file. These are written to here for separation of concern.
 
 ```js
 export function playerChooses(choices) {

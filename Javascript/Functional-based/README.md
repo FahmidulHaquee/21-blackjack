@@ -8,11 +8,11 @@ Functional, Javascript implementation of command line Blackjack.
 - [playerTurn()](#playerturndeck-hand-logger--defaultlogger)
 - [dealerTurn()]()
 - [play()](#playseed--datenow-logger--defaultlogger)
+- [Tests](#tests)
 - [Support files](#support-files)
   - [Logging](#logging)
   - [Shuffle](#shuffle)
   - [Testing](#testing)
-- [Tests](#tests)
 
 ## Run Script
 

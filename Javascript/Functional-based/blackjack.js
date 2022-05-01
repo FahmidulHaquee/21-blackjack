@@ -2,8 +2,8 @@ import shuffle from "./support/shuffle.js";
 import { getDefaultLogger } from "./support/logging.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts";
 
-const LOSE_MESSAGE = "Bust! You lose!";
-const WIN_MESSAGE = "Hooray! You win!";
+const LOSE_MESSAGE = "You lose!";
+const WIN_MESSAGE = "You win!";
 const DRAW_MESSAGE = "Draw!";
 const defaultLogger = await getDefaultLogger();
 
@@ -63,17 +63,19 @@ export function pointsFor(hand) {
   return points;
 }
 
-export function playerTurn(deck, hand, logger = defaultLogger) {
+export function playerTurn(deck, playerHand, logger = defaultLogger) {
   const action = window.prompt('What do you want to do? ("hit" or "stick")\n');
 
   switch (action) {
     case "hit": {
       logger.info("Hitting");
-      hand.push(deck.shift());
+      playerHand.push(deck.shift());
 
-      let playerPoints = pointsFor(hand);
+      let playerPoints = pointsFor(playerHand);
       logger.info(
-        `Your hand is ${hand.join(", ")}\n(${pointsFor(hand)} points)\n`
+        `Your hand is ${playerHand.join(", ")}\n(${pointsFor(
+          playerHand
+        )} points)\n`
       );
 
       if (playerPoints === 21) {
@@ -82,6 +84,7 @@ export function playerTurn(deck, hand, logger = defaultLogger) {
           continueTurn: false,
           didPlayerBust: false,
           didPlayer21: true,
+          playerPoints: pointsFor(playerHand),
         };
       } else if (playerPoints < 21) {
         logger.info("You have less than 21, and can make another move.\n");
@@ -89,9 +92,10 @@ export function playerTurn(deck, hand, logger = defaultLogger) {
           continueTurn: true,
           didPlayerBust: false,
           didPlayer21: false,
+          playerPoints: pointsFor(playerHand),
         };
       } else if (playerPoints > 21) {
-        logger.info("You went over 24!\n");
+        logger.info("You went over 21!\n");
         return {
           continueTurn: false,
           didPlayerBust: true,
@@ -118,11 +122,14 @@ export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
 
   if (dealerPoints < 17) {
     var action = "hit";
-  } else if (dealerPoints >= 17 && dealerPoints < 21) {
+  } else if (dealerPoints >= 17 && dealerPoints <= 21) {
     var action = "stick";
   } else if (dealerPoints > 21) {
     logger.info("Dealer has busted\n");
-    didDealerBust = true;
+    return {
+      continueTurn: false,
+      didDealerBust: true,
+    };
   }
   switch (action) {
     case "hit": {
@@ -130,7 +137,10 @@ export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
       dealerHand.push(deck.shift());
       dealerPoints = pointsFor(dealerHand);
 
-      return true;
+      return {
+        continueTurn: true,
+        didDealerBust: false,
+      };
     }
 
     case "stick": {
@@ -141,13 +151,20 @@ export function dealerTurn(deck, dealerHand, logger = defaultLogger) {
         )}\n With ${dealerPoints} points`
       );
 
-      return false;
+      return {
+        continueTurn: false,
+        didDealerBust: false,
+        dealerPoints: pointsFor(dealerHand),
+      };
     }
   }
 }
 
 export function play({ seed = Date.now(), logger = defaultLogger } = {}) {
+  // Create deck
   const shuffledDeck = shuffle(deck(), seed);
+
+  // Player's turn
   logger.info("Player's turn first");
   let playerHand = [shuffledDeck.shift(), shuffledDeck.shift()];
 
@@ -155,33 +172,43 @@ export function play({ seed = Date.now(), logger = defaultLogger } = {}) {
     `Your hand is ${playerHand.join(", ")}\n(${pointsFor(playerHand)} points)\n`
   );
 
-  let isPlayerTurn = { isPlayerPlaying: true };
-  while (isPlayerTurn.truthy) {
+  let isPlayerTurn = playerTurn(shuffledDeck, playerHand, logger);
+  while (isPlayerTurn.continueTurn === true) {
     isPlayerTurn = playerTurn(shuffledDeck, playerHand, logger);
   }
 
-  if (isPlayerTurn.didPlayerBust) {
-    return LOSE_MESSAGE;
+  if (isPlayerTurn.didPlayerBust === true) {
+    logger.info(LOSE_MESSAGE);
+    return null;
+  } else if (isPlayerTurn.didPlayer21 === true) {
+    logger.info(WIN_MESSAGE);
+    return null;
   }
+
+  // Dealer's turn
 
   logger.info("Dealer's turn now");
   let dealerHand = [shuffledDeck.shift(), shuffledDeck.shift()];
-  let isDealerTurn = true;
 
-  while (isDealerTurn) {
+  let isDealerTurn = dealerTurn(shuffledDeck, dealerHand, logger);
+  while (isDealerTurn.continueTurn === true) {
     isDealerTurn = dealerTurn(shuffledDeck, dealerHand, logger);
   }
 
-  if (didDealerBust) {
-    return WIN_MESSAGE;
+  if (isDealerTurn.didDealerBust) {
+    logger.info(WIN_MESSAGE);
+    return null;
   }
 
-  if (playerPoints > dealerPoints) {
-    return WIN_MESSAGE;
-  } else if (playerPoints === dealerPoints) {
-    return DRAW_MESSAGE;
+  if (isPlayerTurn.playerPoints > isDealerTurn.dealerPoints) {
+    logger.info(WIN_MESSAGE);
+    return null;
+  } else if (isPlayerTurn.playerPoints === isDealerTurn.dealerPoints) {
+    logger.info(DRAW_MESSAGE);
+    return null;
   } else {
-    return LOSE_MESSAGE;
+    logger.info(LOSE_MESSAGE);
+    return null;
   }
 }
 

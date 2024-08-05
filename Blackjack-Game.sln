@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C#", "C#", "{EB012B21-8F9A-4C4B-A49B-A6105BEB234C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A997BB91-0327-4F6D-A5A0-186D3B7E21DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blackjack", "C#\src\Blackjack\Blackjack.csproj", "{FEC20CC1-F1FA-422C-A642-1DF7545FAE87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEC20CC1-F1FA-422C-A642-1DF7545FAE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC20CC1-F1FA-422C-A642-1DF7545FAE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC20CC1-F1FA-422C-A642-1DF7545FAE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC20CC1-F1FA-422C-A642-1DF7545FAE87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A997BB91-0327-4F6D-A5A0-186D3B7E21DC} = {EB012B21-8F9A-4C4B-A49B-A6105BEB234C}
+		{FEC20CC1-F1FA-422C-A642-1DF7545FAE87} = {A997BB91-0327-4F6D-A5A0-186D3B7E21DC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {460B7E50-F307-4866-9E0B-810F7199D546}
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,4 @@
-# Blackjack Command Line Game
+# 21 Blackjack
 
 This repository contains the code for a Blackjack game playable in the terminal. The game has been coded in both Javascript and Python, and in both a functional-based manner and object-orientated manner.
 
@@ -9,7 +9,6 @@ This repository contains the code for a Blackjack game playable in the terminal.
 - [Deno](#deno)
 - [Implementation](#implementation)
 - [Game Logic](#game-logic)
-- [Functional vs Object-oriented Programming](#functional-vs-object-oriented-programming)
 - [License](#license)
 - [Contact](#contact)
 
@@ -60,8 +59,6 @@ If the player sticks or reaches 21, the player's turn ends and the dealer's turn
   - If the dealer's score is still less than 16, the dealer will hit, and vice versa.
   - If the dealer's score is exactly 21, their turn will automatically end.
   - If the dealer's score exceeds 21, the dealer loses and the player wins.
-
-### Functional vs Object-oriented Programming
 
 ## Next Steps
 

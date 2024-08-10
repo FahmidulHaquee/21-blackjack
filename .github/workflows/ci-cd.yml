@@ -16,13 +16,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: List files in root
+      run: ls -al
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16'
 
     - name: Navigate to project directory
-      run: cd browser\client
+      run: |
+        cd browser/client
+        npm install
 
     - name: Install dependencies
       run: npm install

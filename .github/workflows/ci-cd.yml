@@ -24,13 +24,10 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Navigate to project directory
+    - name: Install dependencies
       run: |
         cd browser/client
         npm install
-
-    - name: Install dependencies
-      run: npm install
 
     - name: Run tests
       run: npm test

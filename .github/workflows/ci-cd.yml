@@ -21,6 +21,9 @@ jobs:
       with:
         node-version: '16'
 
+    - name: Navigate to project directory
+      run: cd browser\client
+
     - name: Install dependencies
       run: npm install
 

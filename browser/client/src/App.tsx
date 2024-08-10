@@ -12,6 +12,8 @@ import {
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 
+import Background from "./Background";
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(true);
@@ -54,12 +56,7 @@ function App() {
 
   const renderBackground = () => {
     return (
-      <div className="bg-black fixed inset-0 z-0">
-        <div className="bg-black opacity-50 absolute inset-0 z-0"></div>
-        <div className="bg-black opacity-25 absolute inset-0 z-0"></div>
-        <div className="bg-black opacity-50 absolute inset-0 z-0"></div>
-        <div className="bg-black opacity-75 absolute inset-0 z-0"></div>
-      </div>
+      <Background />
     );
   }
 

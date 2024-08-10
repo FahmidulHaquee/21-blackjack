@@ -52,14 +52,29 @@ function App() {
     );
   };
 
+  const renderBackground = () => {
+    return (
+      <div className="bg-black fixed inset-0 z-0">
+        <div className="bg-black opacity-50 absolute inset-0 z-0"></div>
+        <div className="bg-black opacity-25 absolute inset-0 z-0"></div>
+        <div className="bg-black opacity-50 absolute inset-0 z-0"></div>
+        <div className="bg-black opacity-75 absolute inset-0 z-0"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="App">
+    <main>
+      <div className="App">
       {loading ? (
         <CircularProgress />
       ) : (
         renderDialog()
       )}
     </div>
+      {renderBackground()}
+    </main>
+    
   );
 }
 

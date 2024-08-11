@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+
 import {
   Backdrop,
   Button,
@@ -12,12 +12,15 @@ import {
 } from "@mui/material";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
-
 import Background from "./Background";
+import Game from "./components/Game";
+
+import "./App.css";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(true);
+  const [game, setGame] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,15 +36,20 @@ function App() {
 
   const handleStartGame = () => {
     setOpen(false);
+    setGame(true);
   };
 
   const renderBackdrop = () => {
     return (
       <Backdrop
       open={true}
-      style={{ zIndex: 100, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      style={{ zIndex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     />
     );
+  };
+
+  const renderBackground = () => {
+    return <Background />;
   };
 
   const renderDialog = () => {
@@ -82,15 +90,12 @@ function App() {
     );
   };
 
-  const renderBackground = () => {
-    return <Background />;
-  };
-
   return (
     <main>
-      <div className="App">{renderDialog()}</div>
+      <div className="App">
+        {game ? <Game /> : renderDialog()}
+      </div>
       {renderBackdrop()}
-      {renderBackground()}
     </main>
   );
 }

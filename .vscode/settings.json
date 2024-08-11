@@ -3,6 +3,7 @@
         "deno",
         "Leaderboard",
         "peaceiris",
+        "upcard",
         "webfonts"
     ]
 }
